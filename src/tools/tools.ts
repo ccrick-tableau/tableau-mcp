@@ -1,4 +1,6 @@
 import { getSearchContentTool } from './contentExploration/searchContent.js';
+import { getGetFlowTool } from './flows/getFlow.js';
+import { getListFlowsTool } from './flows/listFlows.js';
 import { getGetDatasourceMetadataTool } from './getDatasourceMetadata/getDatasourceMetadata.js';
 import { getListDatasourcesTool } from './listDatasources/listDatasources.js';
 import { getGeneratePulseInsightBriefTool } from './pulse/generateInsightBrief/generatePulseInsightBriefTool.js';
@@ -39,6 +41,8 @@ export const toolFactories = [
   getListCustomViewsTool,
   getGetCustomViewDataTool,
   getGetCustomViewImageTool,
+  getListFlowsTool,
+  getGetFlowTool,
   getSearchContentTool,
   getRevokeAccessTokenTool,
   getResetConsentTool,

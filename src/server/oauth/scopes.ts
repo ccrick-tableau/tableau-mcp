@@ -20,6 +20,7 @@ export type McpScope =
   | 'tableau:mcp:workbook:read'
   | 'tableau:mcp:view:read'
   | 'tableau:mcp:view:download'
+  | 'tableau:mcp:flow:read'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create';
 
@@ -45,6 +46,7 @@ export const DEFAULT_SCOPES_SUPPORTED: ReadonlyArray<McpScope> = [
   'tableau:mcp:workbook:read',
   'tableau:mcp:view:read',
   'tableau:mcp:view:download',
+  'tableau:mcp:flow:read',
   'tableau:mcp:pulse:read',
   'tableau:mcp:insight:create',
 ];
@@ -96,6 +98,14 @@ const toolScopeMap: Record<
   'get-workbook': {
     mcp: ['tableau:mcp:workbook:read'],
     api: new Set(['tableau:content:read', ...RESOURCE_ACCESS_CHECKER_REQUIRED_API_SCOPES]),
+  },
+  'list-flows': {
+    mcp: ['tableau:mcp:flow:read'],
+    api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
+  },
+  'get-flow': {
+    mcp: ['tableau:mcp:flow:read'],
+    api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
   },
   'get-view-data': {
     mcp: ['tableau:mcp:view:download'],

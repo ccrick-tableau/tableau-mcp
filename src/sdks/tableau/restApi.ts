@@ -16,6 +16,7 @@ import {
 } from './methods/authenticationMethods.js';
 import ContentExplorationMethods from './methods/contentExplorationMethods.js';
 import DatasourcesMethods from './methods/datasourcesMethods.js';
+import FlowsMethods from './methods/flowsMethods.js';
 import McpSettingsMethods from './methods/mcpSettingsMethods.js';
 import MetadataMethods from './methods/metadataMethods.js';
 import PulseMethods from './methods/pulseMethods.js';
@@ -232,6 +233,15 @@ export class RestApi {
     });
     this._addInterceptors(RestApi.baseUrl, workbooksMethods.interceptors);
     return workbooksMethods;
+  }
+
+  get flowsMethods(): FlowsMethods {
+    const flowsMethods = new FlowsMethods(RestApi.baseUrl, this.creds, {
+      timeout: this._maxRequestTimeoutMs,
+      signal: this._signal,
+    });
+    this._addInterceptors(RestApi.baseUrl, flowsMethods.interceptors);
+    return flowsMethods;
   }
 
   public static versionIsAtLeast = (version: `${number}.${number}`): boolean => {
