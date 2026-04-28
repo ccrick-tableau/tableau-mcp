@@ -15,6 +15,7 @@ import { getListPulseMetricSubscriptionsTool } from './pulse/listMetricSubscript
 import { getQueryDatasourceTool } from './queryDatasource/queryDatasource.js';
 import { getResetConsentTool } from './resetConsent/resetConsent.js';
 import { getRevokeAccessTokenTool } from './revokeAccessToken/revokeAccessToken.js';
+import { getListSchedulesTool } from './schedules/listSchedules.js';
 import { getListExtractRefreshTasksTool } from './tasks/listExtractRefreshTasks.js';
 import { getRunExtractRefreshTool } from './tasks/runExtractRefresh.js';
 import { getGetCustomViewDataTool } from './views/getCustomViewData.js';
@@ -51,6 +52,7 @@ export const toolFactories = [
   getGetJobTool,
   getListExtractRefreshTasksTool,
   getRunExtractRefreshTool,
+  getListSchedulesTool,
   getSearchContentTool,
   getRevokeAccessTokenTool,
   getResetConsentTool,

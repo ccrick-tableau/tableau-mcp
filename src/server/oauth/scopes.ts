@@ -25,6 +25,7 @@ export type McpScope =
   | 'tableau:mcp:job:read'
   | 'tableau:mcp:task:read'
   | 'tableau:mcp:task:run'
+  | 'tableau:mcp:schedule:read'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create';
 
@@ -58,6 +59,7 @@ export const DEFAULT_SCOPES_SUPPORTED: ReadonlyArray<McpScope> = [
   'tableau:mcp:job:read',
   'tableau:mcp:task:read',
   'tableau:mcp:task:run',
+  'tableau:mcp:schedule:read',
   'tableau:mcp:pulse:read',
   'tableau:mcp:insight:create',
 ];
@@ -143,6 +145,10 @@ const toolScopeMap: Record<
       'tableau:content:read',
       ...RESOURCE_ACCESS_CHECKER_REQUIRED_API_SCOPES,
     ]),
+  },
+  'list-schedules': {
+    mcp: ['tableau:mcp:schedule:read'],
+    api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
   },
   'get-view-data': {
     mcp: ['tableau:mcp:view:download'],

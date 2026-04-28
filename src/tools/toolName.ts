@@ -5,6 +5,7 @@ export const toolNames = [
   'list-custom-views',
   'list-flows',
   'list-extract-refresh-tasks',
+  'list-schedules',
   'query-datasource',
   'get-datasource-metadata',
   'get-workbook',
@@ -36,6 +37,7 @@ export const toolGroupNames = [
   'flow',
   'job',
   'task',
+  'schedule',
   'pulse',
   'content-exploration',
   'token-management',
@@ -56,6 +58,7 @@ export const toolGroups = {
   flow: ['list-flows', 'get-flow', 'run-flow'],
   job: ['get-job'],
   task: ['list-extract-refresh-tasks', 'run-extract-refresh'],
+  schedule: ['list-schedules'],
   pulse: [
     'list-all-pulse-metric-definitions',
     'list-pulse-metric-definitions-from-definition-ids',
