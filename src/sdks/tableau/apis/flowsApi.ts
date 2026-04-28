@@ -2,6 +2,7 @@ import { makeApi, makeEndpoint, ZodiosEndpointDefinitions } from '@zodios/core';
 import { z } from 'zod';
 
 import { flowSchema } from '../types/flow.js';
+import { jobSchema } from '../types/job.js';
 import { paginationSchema } from '../types/pagination.js';
 import { paginationParameters } from './paginationParameters.js';
 
@@ -42,6 +43,24 @@ const queryFlowsForSiteEndpoint = makeEndpoint({
   }),
 });
 
-const flowsApi = makeApi([queryFlowsForSiteEndpoint, getFlowEndpoint]);
+const runFlowNowEndpoint = makeEndpoint({
+  method: 'post',
+  path: '/sites/:siteId/flows/:flowId/run',
+  alias: 'runFlowNow',
+  description:
+    'Runs the specified flow and returns the job created to perform the run. This is an asynchronous operation; the returned job can be polled via the Query Job endpoint.',
+  parameters: [
+    {
+      name: 'body',
+      type: 'Body',
+      schema: z.object({}).optional(),
+      description:
+        'An empty request body. Flow parameter overrides are not currently exposed through this tool.',
+    },
+  ],
+  response: z.object({ job: jobSchema }),
+});
+
+const flowsApi = makeApi([queryFlowsForSiteEndpoint, getFlowEndpoint, runFlowNowEndpoint]);
 
 export const flowsApis = [...flowsApi] as const satisfies ZodiosEndpointDefinitions;

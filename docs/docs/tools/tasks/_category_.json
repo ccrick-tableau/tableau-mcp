@@ -1,0 +1,8 @@
+{
+  "label": "Tasks",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Tools for managing Tableau tasks such as extract refreshes."
+  }
+}

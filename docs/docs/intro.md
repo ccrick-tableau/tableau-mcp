@@ -25,6 +25,7 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [list-views](tools/views/list-views.md)                                                                               | Retrieves a list of views from a specified Tableau site ([REST API][list-views])                                    |
 | [list-custom-views](tools/views/list-custom-views.md)                                                                 | Retrieves a list of custom views for a specified Tableau workbook ([REST API][list-custom-views])                   |
 | [list-flows](tools/flows/list-flows.md)                                                                               | Retrieves a list of Tableau Prep flows from a specified Tableau site ([REST API][list-flows])                       |
+| [list-extract-refresh-tasks](tools/tasks/list-extract-refresh-tasks.md)                                               | Retrieves a list of extract refresh tasks on a Tableau site ([REST API][list-extract-refresh-tasks])                |
 | [get-datasource-metadata](tools/data-qna/get-datasource-metadata.md)                                                  | Fetches field metadata for the specified datasource ([Metadata API][meta] & [VDS API][vds])                         |
 | [get-workbook](tools/workbooks/get-workbook.md)                                                                       | Retrieves information on a workbook from a specified Tableau site ([REST API][get-workbook])                        |
 | [get-view-data](tools/views/get-view-data.md)                                                                         | Retrieves data in CSV format for the specified view in a Tableau workbook ([REST API][get-view-data])               |
@@ -32,6 +33,9 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [get-custom-view-data](tools/views/get-custom-view-data.md)                                                           | Retrieves data in CSV format for the specified custom view in a Tableau workbook ([REST API][get-custom-view-data]) |
 | [get-custom-view-image](tools/views/get-custom-view-image.md)                                                         | Retrieves an image for a saved custom view ([REST API][get-custom-view-image])                                      |
 | [get-flow](tools/flows/get-flow.md)                                                                                   | Retrieves information on a Tableau Prep flow from a specified Tableau site ([REST API][get-flow])                   |
+| [get-job](tools/jobs/get-job.md)                                                                                      | Returns the status of an asynchronous Tableau job ([REST API][get-job])                                             |
+| [run-flow](tools/flows/run-flow.md)                                                                                   | Triggers an asynchronous run of a Tableau Prep flow and returns the job ([REST API][run-flow])                      |
+| [run-extract-refresh](tools/tasks/run-extract-refresh.md)                                                             | Triggers an asynchronous run of an extract refresh task and returns the job ([REST API][run-extract-refresh])       |
 | [query-datasource](tools/data-qna/query-datasource.md)                                                                | Run a Tableau VizQL query ([VDS API][vds])                                                                          |
 | [list-all-pulse-metric-definitions](tools/pulse/list-all-pulse-metric-definitions.md)                                 | List All Pulse Metric Definitions ([Pulse API][pulse])                                                              |
 | [list-pulse-metric-definitions-from-definition-ids](tools/pulse/list-pulse-metric-definitions-from-definition-ids.md) | List Pulse Metric Definitions from Metric Definition IDs ([Pulse API][pulse])                                       |
@@ -64,6 +68,14 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_workbooks_and_views.htm#get_custom_view_image
 [get-flow]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#query_flow
+[run-flow]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#run_flow_now
+[list-extract-refresh-tasks]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#get_extract_refresh_tasks
+[run-extract-refresh]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#run_extract_refresh_task
+[get-job]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#query_job
 [meta]: https://help.tableau.com/current/api/metadata_api/en-us/index.html
 [vds]: https://help.tableau.com/current/api/vizql-data-service/en-us/index.html
 [pulse]: https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_pulse.htm

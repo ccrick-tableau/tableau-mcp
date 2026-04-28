@@ -4,6 +4,7 @@ import { AxiosRequestConfig } from '../../../utils/axios.js';
 import { flowsApis } from '../apis/flowsApi.js';
 import { RestApiCredentials } from '../restApi.js';
 import { Flow } from '../types/flow.js';
+import { Job } from '../types/job.js';
 import { Pagination } from '../types/pagination.js';
 import AuthenticatedMethods from './authenticatedMethods.js';
 
@@ -68,5 +69,28 @@ export default class FlowsMethods extends AuthenticatedMethods<typeof flowsApis>
       pagination: response.pagination,
       flows: response.flows.flow ?? [],
     };
+  };
+
+  /**
+   * Runs the specified flow and returns the job created to perform the run.
+   * This operation is asynchronous: completion is observed by querying the
+   * returned job.
+   *
+   * Required scopes: `tableau:tasks:run`
+   *
+   * @param {string} flowId The ID of the flow to run.
+   * @param {string} siteId The Tableau site ID.
+   * @link https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#run_flow_now
+   */
+  runFlowNow = async ({ flowId, siteId }: { flowId: string; siteId: string }): Promise<Job> => {
+    return (
+      await this._apiClient.runFlowNow(
+        {},
+        {
+          params: { siteId, flowId },
+          ...this.authHeader,
+        },
+      )
+    ).job;
   };
 }

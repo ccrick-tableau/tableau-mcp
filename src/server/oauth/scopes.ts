@@ -21,6 +21,10 @@ export type McpScope =
   | 'tableau:mcp:view:read'
   | 'tableau:mcp:view:download'
   | 'tableau:mcp:flow:read'
+  | 'tableau:mcp:flow:run'
+  | 'tableau:mcp:job:read'
+  | 'tableau:mcp:task:read'
+  | 'tableau:mcp:task:run'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create';
 
@@ -28,6 +32,9 @@ export type TableauApiScope =
   | 'tableau:content:read'
   | 'tableau:viz_data_service:read'
   | 'tableau:views:download'
+  | 'tableau:jobs:read'
+  | 'tableau:tasks:read'
+  | 'tableau:tasks:run'
   | 'tableau:insight_definitions_metrics:read'
   | 'tableau:insight_metrics:read'
   | 'tableau:metric_subscriptions:read'
@@ -47,6 +54,10 @@ export const DEFAULT_SCOPES_SUPPORTED: ReadonlyArray<McpScope> = [
   'tableau:mcp:view:read',
   'tableau:mcp:view:download',
   'tableau:mcp:flow:read',
+  'tableau:mcp:flow:run',
+  'tableau:mcp:job:read',
+  'tableau:mcp:task:read',
+  'tableau:mcp:task:run',
   'tableau:mcp:pulse:read',
   'tableau:mcp:insight:create',
 ];
@@ -106,6 +117,32 @@ const toolScopeMap: Record<
   'get-flow': {
     mcp: ['tableau:mcp:flow:read'],
     api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
+  },
+  'run-flow': {
+    // Running a flow requires being able to read the flow (for bounded-context checks)
+    // plus the tasks:run API scope that Tableau's run-flow endpoint itself consumes.
+    mcp: ['tableau:mcp:flow:run'],
+    api: new Set(['tableau:content:read', 'tableau:tasks:run', 'tableau:mcp_site_settings:read']),
+  },
+  'get-job': {
+    mcp: ['tableau:mcp:job:read'],
+    api: new Set(['tableau:jobs:read', 'tableau:mcp_site_settings:read']),
+  },
+  'list-extract-refresh-tasks': {
+    mcp: ['tableau:mcp:task:read'],
+    api: new Set(['tableau:tasks:read', 'tableau:mcp_site_settings:read']),
+  },
+  'run-extract-refresh': {
+    // Running an extract refresh needs tasks:read (to resolve the target before the
+    // access-control check), tasks:run (to actually trigger it), and content:read +
+    // the resource-access-checker scopes (to re-use isWorkbookAllowed / isDatasourceAllowed).
+    mcp: ['tableau:mcp:task:run'],
+    api: new Set([
+      'tableau:tasks:read',
+      'tableau:tasks:run',
+      'tableau:content:read',
+      ...RESOURCE_ACCESS_CHECKER_REQUIRED_API_SCOPES,
+    ]),
   },
   'get-view-data': {
     mcp: ['tableau:mcp:view:download'],
