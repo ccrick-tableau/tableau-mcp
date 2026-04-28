@@ -4,7 +4,12 @@ import { AxiosRequestConfig } from '../../../utils/axios.js';
 import { schedulesApis } from '../apis/schedulesApi.js';
 import { RestApiCredentials } from '../restApi.js';
 import { Pagination } from '../types/pagination.js';
-import { Schedule } from '../types/schedule.js';
+import {
+  CreateScheduleInput,
+  Schedule,
+  ScheduleFrequencyDetails,
+  weekDayEnum,
+} from '../types/schedule.js';
 import AuthenticatedMethods from './authenticatedMethods.js';
 
 /**
@@ -55,4 +60,110 @@ export default class SchedulesMethods extends AuthenticatedMethods<typeof schedu
       schedules: response.schedules.schedule ?? [],
     };
   };
+
+  /**
+   * Creates a new schedule on the specified site.
+   *
+   * Requires site-admin (Tableau Cloud) or server-admin (Tableau Server) privileges.
+   * The Tableau backend surfaces permission failures as HTTP 403.
+   *
+   * Required scopes: `tableau:content:read`
+   *
+   * @param siteId The Tableau site ID.
+   * @param input The schedule specification (validated by createScheduleInputSchema).
+   * @link https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#create_schedule
+   */
+  createSchedule = async ({
+    siteId,
+    input,
+  }: {
+    siteId: string;
+    input: CreateScheduleInput;
+  }): Promise<Schedule> => {
+    const body = buildCreateScheduleRequestBody(input);
+    const response = await this._apiClient.createSchedule(body, {
+      params: { siteId },
+      ...this.authHeader,
+    });
+    return response.schedule;
+  };
 }
+
+/**
+ * Transforms the ergonomic tool-facing {@link CreateScheduleInput} into the
+ * wire-format body Tableau's REST API expects.
+ *
+ * The shape of `frequencyDetails` and its `intervals` array changes per
+ * frequency; we flatten the discriminated union here.
+ */
+function buildCreateScheduleRequestBody(input: CreateScheduleInput): {
+  schedule: {
+    name: string;
+    type: CreateScheduleInput['type'];
+    frequency: ScheduleFrequencyDetails['frequency'];
+    priority?: number;
+    executionOrder?: CreateScheduleInput['executionOrder'];
+    frequencyDetails: {
+      start: string;
+      end?: string;
+      intervals: {
+        interval: Array<{
+          hours?: string;
+          minutes?: string;
+          weekDay?: (typeof weekDayEnum)[number];
+          monthDay?: string;
+        }>;
+      };
+    };
+  };
+} {
+  const { name, type, priority, executionOrder, frequencyDetails } = input;
+
+  let interval: Array<{
+    hours?: string;
+    minutes?: string;
+    weekDay?: (typeof weekDayEnum)[number];
+    monthDay?: string;
+  }>;
+  let end: string | undefined;
+
+  switch (frequencyDetails.frequency) {
+    case 'Hourly':
+      interval = frequencyDetails.intervals.map((i) => ({
+        hours: i.hours,
+        minutes: i.minutes,
+      }));
+      end = frequencyDetails.end;
+      break;
+    case 'Daily':
+      // Daily schedules have no per-run interval array; Tableau still accepts
+      // an empty `intervals.interval` list in the wire body.
+      interval = [];
+      break;
+    case 'Weekly':
+      interval = frequencyDetails.intervals.map((i) => ({ weekDay: i.weekDay }));
+      break;
+    case 'Monthly':
+      interval = frequencyDetails.intervals.map((i) => ({ monthDay: i.monthDay }));
+      break;
+  }
+
+  return {
+    schedule: {
+      name,
+      type,
+      frequency: frequencyDetails.frequency,
+      priority,
+      executionOrder,
+      frequencyDetails: {
+        start: frequencyDetails.start,
+        end,
+        intervals: { interval },
+      },
+    },
+  };
+}
+
+export const exportedForTesting = {
+  buildCreateScheduleRequestBody,
+};

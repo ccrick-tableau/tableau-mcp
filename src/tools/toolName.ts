@@ -17,6 +17,7 @@ export const toolNames = [
   'get-job',
   'run-flow',
   'run-extract-refresh',
+  'create-schedule',
   'list-all-pulse-metric-definitions',
   'list-pulse-metric-definitions-from-definition-ids',
   'list-pulse-metrics-from-metric-definition-id',
@@ -58,7 +59,7 @@ export const toolGroups = {
   flow: ['list-flows', 'get-flow', 'run-flow'],
   job: ['get-job'],
   task: ['list-extract-refresh-tasks', 'run-extract-refresh'],
-  schedule: ['list-schedules'],
+  schedule: ['list-schedules', 'create-schedule'],
   pulse: [
     'list-all-pulse-metric-definitions',
     'list-pulse-metric-definitions-from-definition-ids',

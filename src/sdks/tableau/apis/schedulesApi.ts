@@ -2,7 +2,7 @@ import { makeApi, makeEndpoint, ZodiosEndpointDefinitions } from '@zodios/core';
 import { z } from 'zod';
 
 import { paginationSchema } from '../types/pagination.js';
-import { scheduleSchema } from '../types/schedule.js';
+import { createScheduleRequestBodySchema, scheduleSchema } from '../types/schedule.js';
 import { paginationParameters } from './paginationParameters.js';
 
 const listSchedulesEndpoint = makeEndpoint({
@@ -34,6 +34,27 @@ const listSchedulesEndpoint = makeEndpoint({
   }),
 });
 
-const schedulesApi = makeApi([listSchedulesEndpoint]);
+const createScheduleEndpoint = makeEndpoint({
+  method: 'post',
+  path: '/sites/:siteId/schedules',
+  alias: 'createSchedule',
+  description:
+    'Creates a new schedule on the specified site. Returns the created schedule resource. Requires site-admin (Cloud) or server-admin (Server) privileges.',
+  parameters: [
+    {
+      name: 'body',
+      type: 'Body',
+      schema: createScheduleRequestBodySchema,
+    },
+    {
+      name: 'siteId',
+      type: 'Path',
+      schema: z.string(),
+    },
+  ],
+  response: z.object({ schedule: scheduleSchema }),
+});
+
+const schedulesApi = makeApi([listSchedulesEndpoint, createScheduleEndpoint]);
 
 export const schedulesApis = [...schedulesApi] as const satisfies ZodiosEndpointDefinitions;

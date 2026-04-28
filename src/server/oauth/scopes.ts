@@ -26,6 +26,7 @@ export type McpScope =
   | 'tableau:mcp:task:read'
   | 'tableau:mcp:task:run'
   | 'tableau:mcp:schedule:read'
+  | 'tableau:mcp:schedule:create'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create';
 
@@ -60,6 +61,7 @@ export const DEFAULT_SCOPES_SUPPORTED: ReadonlyArray<McpScope> = [
   'tableau:mcp:task:read',
   'tableau:mcp:task:run',
   'tableau:mcp:schedule:read',
+  'tableau:mcp:schedule:create',
   'tableau:mcp:pulse:read',
   'tableau:mcp:insight:create',
 ];
@@ -148,6 +150,14 @@ const toolScopeMap: Record<
   },
   'list-schedules': {
     mcp: ['tableau:mcp:schedule:read'],
+    api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
+  },
+  'create-schedule': {
+    // Creating a schedule requires admin privileges on the Tableau side; the
+    // API scope set below is the baseline needed to reach the endpoint. Tableau
+    // enforces the admin check independently and will surface HTTP 403 to
+    // non-admin callers.
+    mcp: ['tableau:mcp:schedule:create'],
     api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
   },
   'get-view-data': {

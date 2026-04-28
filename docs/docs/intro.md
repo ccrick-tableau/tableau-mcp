@@ -37,6 +37,7 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [get-job](tools/jobs/get-job.md)                                                                                      | Returns the status of an asynchronous Tableau job ([REST API][get-job])                                             |
 | [run-flow](tools/flows/run-flow.md)                                                                                   | Triggers an asynchronous run of a Tableau Prep flow and returns the job ([REST API][run-flow])                      |
 | [run-extract-refresh](tools/tasks/run-extract-refresh.md)                                                             | Triggers an asynchronous run of an extract refresh task and returns the job ([REST API][run-extract-refresh])       |
+| [create-schedule](tools/schedules/create-schedule.md)                                                                 | Creates a new schedule on the Tableau site (admin only) ([REST API][create-schedule])                               |
 | [query-datasource](tools/data-qna/query-datasource.md)                                                                | Run a Tableau VizQL query ([VDS API][vds])                                                                          |
 | [list-all-pulse-metric-definitions](tools/pulse/list-all-pulse-metric-definitions.md)                                 | List All Pulse Metric Definitions ([Pulse API][pulse])                                                              |
 | [list-pulse-metric-definitions-from-definition-ids](tools/pulse/list-pulse-metric-definitions-from-definition-ids.md) | List Pulse Metric Definitions from Metric Definition IDs ([Pulse API][pulse])                                       |
@@ -75,6 +76,8 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#get_extract_refresh_tasks
 [list-schedules]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#list_schedules
+[create-schedule]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#create_schedule
 [run-extract-refresh]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#run_extract_refresh_task
 [get-job]:
