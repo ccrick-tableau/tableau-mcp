@@ -4,6 +4,8 @@ import { AxiosRequestConfig } from '../../../utils/axios.js';
 import { flowsApis } from '../apis/flowsApi.js';
 import { RestApiCredentials } from '../restApi.js';
 import { Flow } from '../types/flow.js';
+import { FlowConnection } from '../types/flowConnection.js';
+import { FlowRun } from '../types/flowRun.js';
 import { Job } from '../types/job.js';
 import { Pagination } from '../types/pagination.js';
 import AuthenticatedMethods from './authenticatedMethods.js';
@@ -92,5 +94,54 @@ export default class FlowsMethods extends AuthenticatedMethods<typeof flowsApis>
         },
       )
     ).job;
+  };
+
+  /**
+   * Returns historical flow runs for the specified flow in reverse-chronological
+   * order. The Tableau endpoint does not support pagination or filtering; all
+   * runs the caller has permission to see are returned.
+   *
+   * Required scopes: `tableau:content:read`
+   *
+   * @param flowId The ID of the flow whose run history to fetch.
+   * @param siteId The Tableau site ID.
+   * @link https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#get_flow_runs
+   */
+  getFlowRuns = async ({
+    flowId,
+    siteId,
+  }: {
+    flowId: string;
+    siteId: string;
+  }): Promise<FlowRun[]> => {
+    const response = await this._apiClient.getFlowRuns({
+      params: { siteId, flowId },
+      ...this.authHeader,
+    });
+    return response.flowRuns.flowRun ?? [];
+  };
+
+  /**
+   * Returns the input connections (databases, files, published data sources)
+   * that the specified flow reads from.
+   *
+   * Required scopes: `tableau:content:read`
+   *
+   * @param flowId The ID of the flow whose connections to fetch.
+   * @param siteId The Tableau site ID.
+   * @link https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#get_flow_connections
+   */
+  getFlowConnections = async ({
+    flowId,
+    siteId,
+  }: {
+    flowId: string;
+    siteId: string;
+  }): Promise<FlowConnection[]> => {
+    const response = await this._apiClient.getFlowConnections({
+      params: { siteId, flowId },
+      ...this.authHeader,
+    });
+    return response.connections.connection ?? [];
   };
 }

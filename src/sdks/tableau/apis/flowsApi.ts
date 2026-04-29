@@ -2,6 +2,8 @@ import { makeApi, makeEndpoint, ZodiosEndpointDefinitions } from '@zodios/core';
 import { z } from 'zod';
 
 import { flowSchema } from '../types/flow.js';
+import { flowConnectionSchema } from '../types/flowConnection.js';
+import { flowRunSchema } from '../types/flowRun.js';
 import { jobSchema } from '../types/job.js';
 import { paginationSchema } from '../types/pagination.js';
 import { paginationParameters } from './paginationParameters.js';
@@ -61,6 +63,38 @@ const runFlowNowEndpoint = makeEndpoint({
   response: z.object({ job: jobSchema }),
 });
 
-const flowsApi = makeApi([queryFlowsForSiteEndpoint, getFlowEndpoint, runFlowNowEndpoint]);
+const getFlowRunsEndpoint = makeEndpoint({
+  method: 'get',
+  path: '/sites/:siteId/flows/:flowId/runs',
+  alias: 'getFlowRuns',
+  description:
+    'Returns historical flow runs for the specified flow. Tableau returns runs in reverse-chronological order.',
+  response: z.object({
+    flowRuns: z.object({
+      flowRun: z.optional(z.array(flowRunSchema)),
+    }),
+  }),
+});
+
+const getFlowConnectionsEndpoint = makeEndpoint({
+  method: 'get',
+  path: '/sites/:siteId/flows/:flowId/connections',
+  alias: 'getFlowConnections',
+  description:
+    'Returns the input connections (databases, files, published data sources) that the specified flow reads from.',
+  response: z.object({
+    connections: z.object({
+      connection: z.optional(z.array(flowConnectionSchema)),
+    }),
+  }),
+});
+
+const flowsApi = makeApi([
+  queryFlowsForSiteEndpoint,
+  getFlowEndpoint,
+  runFlowNowEndpoint,
+  getFlowRunsEndpoint,
+  getFlowConnectionsEndpoint,
+]);
 
 export const flowsApis = [...flowsApi] as const satisfies ZodiosEndpointDefinitions;
