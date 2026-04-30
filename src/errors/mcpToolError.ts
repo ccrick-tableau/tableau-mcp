@@ -114,6 +114,18 @@ export class WorkbookNotFoundError extends McpToolError {
   }
 }
 
+export class FlowNotAllowedError extends McpToolError {
+  constructor(message: string) {
+    super({ type: 'flow-not-allowed', message, statusCode: 403 });
+  }
+}
+
+export class FlowNotFoundError extends McpToolError {
+  constructor(message: string) {
+    super({ type: 'flow-not-found', message, statusCode: 404 });
+  }
+}
+
 export class ZodiosValidationError extends McpToolError {
   constructor(error: ZodiosError) {
     super({

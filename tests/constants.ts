@@ -2,6 +2,7 @@ import invariant from '../src/utils/invariant.js';
 
 export type Datasource = { id: string };
 export type Workbook = { id: string; defaultView: { id: string; customViewId: string } };
+export type Flow = { id: string };
 
 export type PulseDefinition = { id: string; metrics: Array<PulseMetric> };
 export type PulseMetric = { id: string };
@@ -16,6 +17,9 @@ type EnvironmentData = {
           };
           workbooks: {
             [name: string]: Workbook;
+          };
+          flows?: {
+            [name: string]: Flow;
           };
           pulse: {
             definitions: {
@@ -128,6 +132,16 @@ export function getWorkbook(server: string, siteName: string, workbookName: stri
   );
 
   return workbook;
+}
+
+export function getFlow(server: string, siteName: string, flowName: string): Flow {
+  const flow = environmentData.servers[server]?.sites[siteName]?.flows?.[flowName];
+  invariant(
+    flow,
+    `Flow not found. Input: ${JSON.stringify({ server, siteName, flowName })}. Ensure a Tableau Prep flow has been published to the test site and its id has been added to tests/constants.ts.`,
+  );
+
+  return flow;
 }
 
 export function getPulseDefinition(

@@ -13,6 +13,9 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   API][meta].
 - Supports access to Pulse Metric, Pulse Metric Definitions, Pulse Subscriptions, and Pulse Metric
   Value Insight Bundle through the [Pulse API][pulse].
+- Supports discovery and on-demand execution of Tableau Prep flows, with enriched get-flow output
+  (recent run history and input connections) and a companion get-job tool for observing async
+  progress.
 - Usable by AI tools which support MCP Tools (e.g., Claude Desktop, Cursor and others).
 - Works with any published data source on either Tableau Cloud or Tableau Server.
 
@@ -24,12 +27,16 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [list-workbooks](tools/workbooks/list-workbooks.md)                                                                   | Retrieves a list of workbooks from a specified Tableau site ([REST API][list-workbooks])                            |
 | [list-views](tools/views/list-views.md)                                                                               | Retrieves a list of views from a specified Tableau site ([REST API][list-views])                                    |
 | [list-custom-views](tools/views/list-custom-views.md)                                                                 | Retrieves a list of custom views for a specified Tableau workbook ([REST API][list-custom-views])                   |
+| [list-flows](tools/flows/list-flows.md)                                                                               | Retrieves a list of Tableau Prep flows from a specified Tableau site ([REST API][list-flows])                       |
 | [get-datasource-metadata](tools/data-qna/get-datasource-metadata.md)                                                  | Fetches field metadata for the specified datasource ([Metadata API][meta] & [VDS API][vds])                         |
 | [get-workbook](tools/workbooks/get-workbook.md)                                                                       | Retrieves information on a workbook from a specified Tableau site ([REST API][get-workbook])                        |
 | [get-view-data](tools/views/get-view-data.md)                                                                         | Retrieves data in CSV format for the specified view in a Tableau workbook ([REST API][get-view-data])               |
 | [get-view-image](tools/views/get-view-image.md)                                                                       | Retrieves an image for the specified view in a Tableau workbook ([REST API][get-view-image])                        |
 | [get-custom-view-data](tools/views/get-custom-view-data.md)                                                           | Retrieves data in CSV format for the specified custom view in a Tableau workbook ([REST API][get-custom-view-data]) |
 | [get-custom-view-image](tools/views/get-custom-view-image.md)                                                         | Retrieves an image for a saved custom view ([REST API][get-custom-view-image])                                      |
+| [get-flow](tools/flows/get-flow.md)                                                                                   | Retrieves information on a Tableau Prep flow from a specified Tableau site ([REST API][get-flow])                   |
+| [get-job](tools/jobs/get-job.md)                                                                                      | Returns the status of an asynchronous Tableau job ([REST API][get-job])                                             |
+| [run-flow](tools/flows/run-flow.md)                                                                                   | Triggers an asynchronous run of a Tableau Prep flow and returns the job ([REST API][run-flow])                      |
 | [query-datasource](tools/data-qna/query-datasource.md)                                                                | Run a Tableau VizQL query ([VDS API][vds])                                                                          |
 | [list-all-pulse-metric-definitions](tools/pulse/list-all-pulse-metric-definitions.md)                                 | List All Pulse Metric Definitions ([Pulse API][pulse])                                                              |
 | [list-pulse-metric-definitions-from-definition-ids](tools/pulse/list-pulse-metric-definitions-from-definition-ids.md) | List Pulse Metric Definitions from Metric Definition IDs ([Pulse API][pulse])                                       |
@@ -58,6 +65,14 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_workbooks_and_views.htm#get_custom_view_data
 [get-custom-view-image]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_workbooks_and_views.htm#get_custom_view_image
+[list-flows]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#query_flows_for_site
+[get-flow]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#query_flow
+[run-flow]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#run_flow_now
+[get-job]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#query_job
 [meta]: https://help.tableau.com/current/api/metadata_api/en-us/index.html
 [vds]: https://help.tableau.com/current/api/vizql-data-service/en-us/index.html
 [pulse]: https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_pulse.htm

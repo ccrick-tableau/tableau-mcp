@@ -29,6 +29,8 @@ type JwtScopes =
   | 'tableau:metric_subscriptions:read'
   | 'tableau:insights:read'
   | 'tableau:views:download'
+  | 'tableau:jobs:read'
+  | 'tableau:tasks:run'
   | 'tableau:insight_brief:create'
   | 'tableau:mcp_site_settings:read';
 

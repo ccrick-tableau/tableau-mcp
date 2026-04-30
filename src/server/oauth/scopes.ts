@@ -20,6 +20,9 @@ export type McpScope =
   | 'tableau:mcp:workbook:read'
   | 'tableau:mcp:view:read'
   | 'tableau:mcp:view:download'
+  | 'tableau:mcp:flow:read'
+  | 'tableau:mcp:flow:run'
+  | 'tableau:mcp:job:read'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create';
 
@@ -27,6 +30,8 @@ export type TableauApiScope =
   | 'tableau:content:read'
   | 'tableau:viz_data_service:read'
   | 'tableau:views:download'
+  | 'tableau:jobs:read'
+  | 'tableau:tasks:run'
   | 'tableau:insight_definitions_metrics:read'
   | 'tableau:insight_metrics:read'
   | 'tableau:metric_subscriptions:read'
@@ -45,6 +50,9 @@ export const DEFAULT_SCOPES_SUPPORTED: ReadonlyArray<McpScope> = [
   'tableau:mcp:workbook:read',
   'tableau:mcp:view:read',
   'tableau:mcp:view:download',
+  'tableau:mcp:flow:read',
+  'tableau:mcp:flow:run',
+  'tableau:mcp:job:read',
   'tableau:mcp:pulse:read',
   'tableau:mcp:insight:create',
 ];
@@ -96,6 +104,22 @@ const toolScopeMap: Record<
   'get-workbook': {
     mcp: ['tableau:mcp:workbook:read'],
     api: new Set(['tableau:content:read', ...RESOURCE_ACCESS_CHECKER_REQUIRED_API_SCOPES]),
+  },
+  'list-flows': {
+    mcp: ['tableau:mcp:flow:read'],
+    api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
+  },
+  'get-flow': {
+    mcp: ['tableau:mcp:flow:read'],
+    api: new Set(['tableau:content:read', 'tableau:mcp_site_settings:read']),
+  },
+  'run-flow': {
+    mcp: ['tableau:mcp:flow:run'],
+    api: new Set(['tableau:content:read', 'tableau:tasks:run', 'tableau:mcp_site_settings:read']),
+  },
+  'get-job': {
+    mcp: ['tableau:mcp:job:read'],
+    api: new Set(['tableau:jobs:read', 'tableau:mcp_site_settings:read']),
   },
   'get-view-data': {
     mcp: ['tableau:mcp:view:download'],

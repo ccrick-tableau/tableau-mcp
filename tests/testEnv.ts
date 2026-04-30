@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { existsSync } from 'fs';
 
 import { ProcessEnvEx } from '../types/process-env.js';
-import { Datasource, getDatasource, getWorkbook, Workbook } from './constants.js';
+import { Datasource, Flow, getDatasource, getFlow, getWorkbook, Workbook } from './constants.js';
 
 type EnvValues = Record<keyof ProcessEnvEx, string>;
 
@@ -53,4 +53,9 @@ export function getSuperstoreDatasource(env?: EnvValues): Datasource {
 export function getSuperstoreWorkbook(env?: EnvValues): Workbook {
   const { SERVER, SITE_NAME } = env ?? getDefaultEnv();
   return getWorkbook(SERVER, SITE_NAME, 'Superstore');
+}
+
+export function getSuperstoreFlow(env?: EnvValues): Flow {
+  const { SERVER, SITE_NAME } = env ?? getDefaultEnv();
+  return getFlow(SERVER, SITE_NAME, 'Superstore Flow');
 }
