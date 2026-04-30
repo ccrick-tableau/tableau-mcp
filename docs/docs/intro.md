@@ -17,6 +17,7 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   (recent run history and input connections) and a companion get-job tool for observing async
   progress.
 - Supports listing and on-demand execution of extract refresh tasks.
+- Supports listing and creating Tableau schedules (admin).
 - Usable by AI tools which support MCP Tools (e.g., Claude Desktop, Cursor and others).
 - Works with any published data source on either Tableau Cloud or Tableau Server.
 
@@ -30,6 +31,7 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [list-custom-views](tools/views/list-custom-views.md)                                                                 | Retrieves a list of custom views for a specified Tableau workbook ([REST API][list-custom-views])                   |
 | [list-flows](tools/flows/list-flows.md)                                                                               | Retrieves a list of Tableau Prep flows from a specified Tableau site ([REST API][list-flows])                       |
 | [list-extract-refresh-tasks](tools/tasks/list-extract-refresh-tasks.md)                                               | Retrieves a list of extract refresh tasks on a Tableau site ([REST API][list-extract-refresh-tasks])                |
+| [list-schedules](tools/schedules/list-schedules.md)                                                                   | Retrieves a list of schedules on a Tableau site ([REST API][list-schedules])                                        |
 | [get-datasource-metadata](tools/data-qna/get-datasource-metadata.md)                                                  | Fetches field metadata for the specified datasource ([Metadata API][meta] & [VDS API][vds])                         |
 | [get-workbook](tools/workbooks/get-workbook.md)                                                                       | Retrieves information on a workbook from a specified Tableau site ([REST API][get-workbook])                        |
 | [get-view-data](tools/views/get-view-data.md)                                                                         | Retrieves data in CSV format for the specified view in a Tableau workbook ([REST API][get-view-data])               |
@@ -40,6 +42,7 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [get-job](tools/jobs/get-job.md)                                                                                      | Returns the status of an asynchronous Tableau job ([REST API][get-job])                                             |
 | [run-flow](tools/flows/run-flow.md)                                                                                   | Triggers an asynchronous run of a Tableau Prep flow and returns the job ([REST API][run-flow])                      |
 | [run-extract-refresh](tools/tasks/run-extract-refresh.md)                                                             | Triggers an asynchronous run of an extract refresh task and returns the job ([REST API][run-extract-refresh])       |
+| [create-schedule](tools/schedules/create-schedule.md)                                                                 | Creates a new schedule on the Tableau site (admin only) ([REST API][create-schedule])                               |
 | [query-datasource](tools/data-qna/query-datasource.md)                                                                | Run a Tableau VizQL query ([VDS API][vds])                                                                          |
 | [list-all-pulse-metric-definitions](tools/pulse/list-all-pulse-metric-definitions.md)                                 | List All Pulse Metric Definitions ([Pulse API][pulse])                                                              |
 | [list-pulse-metric-definitions-from-definition-ids](tools/pulse/list-pulse-metric-definitions-from-definition-ids.md) | List Pulse Metric Definitions from Metric Definition IDs ([Pulse API][pulse])                                       |
@@ -76,6 +79,10 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#run_flow_now
 [list-extract-refresh-tasks]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#get_extract_refresh_tasks
+[list-schedules]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#list_schedules
+[create-schedule]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#create_schedule
 [run-extract-refresh]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_jobs_tasks_and_schedules.htm#run_extract_refresh_task
 [get-job]:
