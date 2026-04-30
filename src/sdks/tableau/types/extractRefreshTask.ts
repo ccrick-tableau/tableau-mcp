@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { scheduleSchema } from './schedule.js';
+
 /**
  * Tableau REST API Extract Refresh Task resource.
  *
@@ -15,18 +17,7 @@ export const extractRefreshTaskSchema = z.object({
   type: z.string().optional(),
   priority: z.coerce.number().optional(),
   consecutiveFailedCount: z.coerce.number().optional(),
-  schedule: z
-    .object({
-      id: z.string(),
-      name: z.string().optional(),
-      state: z.string().optional(),
-      priority: z.coerce.number().optional(),
-      createdAt: z.string().optional(),
-      updatedAt: z.string().optional(),
-      frequency: z.string().optional(),
-      nextRunAt: z.string().optional(),
-    })
-    .optional(),
+  schedule: scheduleSchema.optional(),
   workbook: z
     .object({
       id: z.string(),

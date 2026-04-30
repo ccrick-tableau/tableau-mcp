@@ -21,6 +21,7 @@ import JobsMethods from './methods/jobsMethods.js';
 import McpSettingsMethods from './methods/mcpSettingsMethods.js';
 import MetadataMethods from './methods/metadataMethods.js';
 import PulseMethods from './methods/pulseMethods.js';
+import SchedulesMethods from './methods/schedulesMethods.js';
 import { AuthenticatedServerMethods, ServerMethods } from './methods/serverMethods.js';
 import TasksMethods from './methods/tasksMethods.js';
 import ViewsMethods from './methods/viewsMethods.js';
@@ -262,6 +263,15 @@ export class RestApi {
     });
     this._addInterceptors(RestApi.baseUrl, tasksMethods.interceptors);
     return tasksMethods;
+  }
+
+  get schedulesMethods(): SchedulesMethods {
+    const schedulesMethods = new SchedulesMethods(RestApi.baseUrl, this.creds, {
+      timeout: this._maxRequestTimeoutMs,
+      signal: this._signal,
+    });
+    this._addInterceptors(RestApi.baseUrl, schedulesMethods.interceptors);
+    return schedulesMethods;
   }
 
   public static versionIsAtLeast = (version: `${number}.${number}`): boolean => {
