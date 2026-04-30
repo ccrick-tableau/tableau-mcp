@@ -23,6 +23,8 @@ export type McpScope =
   | 'tableau:mcp:flow:read'
   | 'tableau:mcp:flow:run'
   | 'tableau:mcp:job:read'
+  | 'tableau:mcp:task:read'
+  | 'tableau:mcp:task:run'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create';
 
@@ -31,6 +33,7 @@ export type TableauApiScope =
   | 'tableau:viz_data_service:read'
   | 'tableau:views:download'
   | 'tableau:jobs:read'
+  | 'tableau:tasks:read'
   | 'tableau:tasks:run'
   | 'tableau:insight_definitions_metrics:read'
   | 'tableau:insight_metrics:read'
@@ -53,6 +56,8 @@ export const DEFAULT_SCOPES_SUPPORTED: ReadonlyArray<McpScope> = [
   'tableau:mcp:flow:read',
   'tableau:mcp:flow:run',
   'tableau:mcp:job:read',
+  'tableau:mcp:task:read',
+  'tableau:mcp:task:run',
   'tableau:mcp:pulse:read',
   'tableau:mcp:insight:create',
 ];
@@ -120,6 +125,19 @@ const toolScopeMap: Record<
   'get-job': {
     mcp: ['tableau:mcp:job:read'],
     api: new Set(['tableau:jobs:read', 'tableau:mcp_site_settings:read']),
+  },
+  'list-extract-refresh-tasks': {
+    mcp: ['tableau:mcp:task:read'],
+    api: new Set(['tableau:tasks:read', 'tableau:mcp_site_settings:read']),
+  },
+  'run-extract-refresh': {
+    mcp: ['tableau:mcp:task:run'],
+    api: new Set([
+      'tableau:tasks:read',
+      'tableau:tasks:run',
+      'tableau:content:read',
+      ...RESOURCE_ACCESS_CHECKER_REQUIRED_API_SCOPES,
+    ]),
   },
   'get-view-data': {
     mcp: ['tableau:mcp:view:download'],

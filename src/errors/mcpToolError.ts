@@ -126,6 +126,18 @@ export class FlowNotFoundError extends McpToolError {
   }
 }
 
+export class ExtractRefreshTaskNotAllowedError extends McpToolError {
+  constructor(message: string) {
+    super({ type: 'extract-refresh-task-not-allowed', message, statusCode: 403 });
+  }
+}
+
+export class ExtractRefreshTaskNotFoundError extends McpToolError {
+  constructor(message: string) {
+    super({ type: 'extract-refresh-task-not-found', message, statusCode: 404 });
+  }
+}
+
 export class ZodiosValidationError extends McpToolError {
   constructor(error: ZodiosError) {
     super({
