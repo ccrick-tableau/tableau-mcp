@@ -41,6 +41,7 @@ type JwtScopes =
   | 'tableau:datasource_tags:update'
   | 'tableau:datasources:delete'
   | 'tableau:jobs:read'
+  | 'tableau:flow_tasks:read'
   | 'tableau:users:read'
   | 'tableau:flows:read'
   | 'tableau:flow_connections:read'

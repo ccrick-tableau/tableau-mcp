@@ -52,6 +52,7 @@ export type TableauApiScope =
   | 'tableau:datasource_tags:update'
   | 'tableau:datasources:delete'
   | 'tableau:jobs:read'
+  | 'tableau:flow_tasks:read'
   | 'tableau:users:read';
 
 /**
@@ -186,6 +187,21 @@ const toolScopeMap: Record<
       GET_FLOW_CONNECTIONS_API_SCOPE,
       GET_FLOW_RUNS_API_SCOPE,
     ]),
+  },
+  'list-flow-runs': {
+    mcp: ['tableau:mcp:flow:read'],
+    // `flows:read` is needed in addition to `flow_runs:read` because, when the
+    // returned window contains a Failed run, the tool resolves one flow's
+    // `webpageUrl` (Query Flow) to build a run-history deep link for the caller.
+    api: new Set([
+      'tableau:flow_runs:read',
+      'tableau:flows:read',
+      'tableau:mcp_site_settings:read',
+    ]),
+  },
+  'list-flow-tasks': {
+    mcp: ['tableau:mcp:flow:read'],
+    api: new Set(['tableau:flow_tasks:read', 'tableau:mcp_site_settings:read']),
   },
   'query-datasource': {
     mcp: ['tableau:mcp:datasource:read'],
