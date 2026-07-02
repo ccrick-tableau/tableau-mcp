@@ -183,13 +183,20 @@ const getFlowRunsEndpoint = makeEndpoint({
  * write may complete even after the run reports Cancelled.
  *
  * Tableau Cloud scope: tableau:flow_runs:update (added API 3.27)
+ *
+ * Response shape note: a successful cancel returns HTTP 200 with a JSON body of
+ * `{}` (not an empty/void body). Some domain failures (e.g. "flow run already
+ * complete", code 403135) are also returned as HTTP 200 with an
+ * `{ error: { code, summary, detail } }` envelope rather than a non-2xx status,
+ * so the response is typed as unknown and the method inspects the body.
  * @see https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#cancel_flow_run
  */
 const cancelFlowRunEndpoint = makeEndpoint({
   method: 'put',
   path: '/sites/:siteId/flows/runs/:flowRunId',
   alias: 'cancelFlowRun',
-  description: 'Cancels a flow run that is in progress. No request body; returns an empty 200.',
+  description:
+    'Cancels a flow run that is in progress. No request body; returns HTTP 200 (body {} on success, or an { error } envelope for some failures).',
   parameters: [
     {
       name: 'siteId',
@@ -202,7 +209,7 @@ const cancelFlowRunEndpoint = makeEndpoint({
       schema: z.string(),
     },
   ],
-  response: z.void(),
+  response: z.unknown(),
 });
 
 const flowsApi = makeApi([

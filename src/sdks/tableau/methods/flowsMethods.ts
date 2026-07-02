@@ -3,6 +3,7 @@ import { Zodios } from '@zodios/core';
 import { AxiosRequestConfig } from '../../../utils/axios.js';
 import { flowsApis } from '../apis/flowsApi.js';
 import { RestApiCredentials } from '../restApi.js';
+import { TableauRestError } from '../tableauRestError.js';
 import { Flow, FlowConnection, FlowOutputStep, FlowRun } from '../types/flow.js';
 import { RunFlowJob } from '../types/job.js';
 import { Pagination } from '../types/pagination.js';
@@ -192,7 +193,13 @@ export default class FlowsMethods extends AuthenticatedMethods<typeof flowsApis>
 
   /**
    * Cancels a flow run that is in progress, addressed by its flow *run* id.
-   * No request body; a successful call returns nothing (empty 200).
+   * No request body; a successful call returns HTTP 200 with a `{}` body.
+   *
+   * Some domain failures (e.g. "flow run already complete", code 403135) are
+   * returned by Tableau as HTTP 200 with an `{ error: { code, summary, detail } }`
+   * envelope rather than a non-2xx status, so axios does not throw. This method
+   * detects that envelope and throws a {@link TableauRestError} so those cases
+   * flow through the same error-mapping path as real non-2xx responses.
    *
    * Cancellation is best-effort at the Backgrounder job level: a run may take
    * several seconds to stop and, if it is already writing to an output
@@ -211,9 +218,14 @@ export default class FlowsMethods extends AuthenticatedMethods<typeof flowsApis>
     siteId: string;
     flowRunId: string;
   }): Promise<void> => {
-    await this._apiClient.cancelFlowRun(undefined, {
+    const body = await this._apiClient.cancelFlowRun(undefined, {
       params: { siteId, flowRunId },
       ...this.authHeader,
     });
+    const tableauError = (body as { error?: { code?: string; summary?: string; detail?: string } })
+      ?.error;
+    if (tableauError && (tableauError.code || tableauError.summary)) {
+      throw new TableauRestError(tableauError);
+    }
   };
 }

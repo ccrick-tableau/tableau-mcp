@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { McpToolError } from '../../../errors/mcpToolError.js';
+import { TableauRestError } from '../../../sdks/tableau/tableauRestError.js';
 import { mapCancelFlowRunError, mapFlowWriteError } from './flowWriteErrors.js';
 
 function axiosError(
@@ -136,5 +137,21 @@ describe('mapCancelFlowRunError', () => {
     expect(result.type).toBe('cancel-flow-run-failed');
     expect(result.statusCode).toBe(500);
     expect(result.message).toContain('socket hang up');
+  });
+
+  it('maps a TableauRestError (error envelope from a 200 body) by its embedded code', () => {
+    // Cancel Flow Run returns HTTP 200 with { error: { code: 403135 } } for the
+    // already-complete case; the SDK normalizes it to a TableauRestError.
+    const result = mapCancelFlowRunError(
+      new TableauRestError({
+        code: '403135',
+        summary: 'Cannot cancel flow run because the run is already complete.',
+        detail: "Flow run 'run-1' is complete.",
+      }),
+    );
+    expect(result.type).toBe('cancel-flow-run-already-complete');
+    expect(result.statusCode).toBe(403);
+    expect(result.message).toContain('already completed');
+    expect(result.message).toContain('Tableau [403135]');
   });
 });

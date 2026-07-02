@@ -1,4 +1,5 @@
 import { McpToolError } from '../../../errors/mcpToolError.js';
+import { TableauRestError } from '../../../sdks/tableau/tableauRestError.js';
 import { isAxiosError } from '../../../utils/axios.js';
 import { getExceptionMessage } from '../../../utils/getExceptionMessage.js';
 import { getHttpStatus } from '../../../utils/getHttpStatus.js';
@@ -12,6 +13,10 @@ import { getHttpStatus } from '../../../utils/getHttpStatus.js';
 function extractTableauError(
   error: unknown,
 ): { code?: string; summary?: string; detail?: string } | null {
+  // Tableau error surfaced in a 2xx body and normalized by the SDK method.
+  if (error instanceof TableauRestError) {
+    return error.tableauError;
+  }
   if (!isAxiosError(error)) {
     return null;
   }

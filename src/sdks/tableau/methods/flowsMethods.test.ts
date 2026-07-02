@@ -85,7 +85,7 @@ describe('FlowsMethods', () => {
     }
 
     it('PUTs the flow run id in the URI params with no request body', async () => {
-      const mockApiClient = { cancelFlowRun: vi.fn().mockResolvedValue(undefined) };
+      const mockApiClient = { cancelFlowRun: vi.fn().mockResolvedValue({}) };
       const flowsMethods = makeMethods(mockApiClient);
 
       await flowsMethods.cancelFlowRun({ siteId: 'site-1', flowRunId: 'run-1' });
@@ -94,6 +94,33 @@ describe('FlowsMethods', () => {
         undefined,
         expect.objectContaining({ params: { siteId: 'site-1', flowRunId: 'run-1' } }),
       );
+    });
+
+    it('resolves for a successful empty ({}) body', async () => {
+      const mockApiClient = { cancelFlowRun: vi.fn().mockResolvedValue({}) };
+      const flowsMethods = makeMethods(mockApiClient);
+      await expect(
+        flowsMethods.cancelFlowRun({ siteId: 'site-1', flowRunId: 'run-1' }),
+      ).resolves.toBeUndefined();
+    });
+
+    it('throws TableauRestError when Tableau returns an error envelope in a 200 body', async () => {
+      // Cancel Flow Run returns HTTP 200 with { error } for some domain failures
+      // (e.g. already-complete 403135) instead of a non-2xx status.
+      const mockApiClient = {
+        cancelFlowRun: vi.fn().mockResolvedValue({
+          error: {
+            code: '403135',
+            summary: 'Cannot cancel flow run because the run is already complete.',
+            detail: "Flow run 'run-1' is complete.",
+          },
+        }),
+      };
+      const flowsMethods = makeMethods(mockApiClient);
+
+      await expect(
+        flowsMethods.cancelFlowRun({ siteId: 'site-1', flowRunId: 'run-1' }),
+      ).rejects.toMatchObject({ name: 'TableauRestError', statusCode: '403' });
     });
   });
 });
