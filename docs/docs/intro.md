@@ -34,6 +34,7 @@ Tableau's official MCP Server. Helping Agents see and understand data.
 | [get-flow-task](tools/flows/get-flow-task.md) | Retrieves a single scheduled flow run task by id ([REST API][get-flow-task]) |
 | [run-flow](tools/flows/run-flow.md) | Opt-in mutating tool. Runs a Tableau Prep flow on demand, returning the async job ([REST API][run-flow-now]) |
 | [run-flow-task](tools/flows/run-flow-task.md) | Opt-in mutating tool. Runs an existing scheduled flow run task now, returning the async job ([REST API][run-flow-task]) |
+| [cancel-flow-run](tools/flows/cancel-flow-run.md) | Opt-in mutating tool. Cancels an in-progress flow run (best-effort) by flow run id ([REST API][cancel-flow-run]) |
 | [get-view-data](tools/views/get-view-data.md)                                                                         | Retrieves data in CSV format for the specified view in a Tableau workbook ([REST API][get-view-data])               |
 | [get-view-image](tools/views/get-view-image.md)                                                                       | Retrieves an image for the specified view in a Tableau workbook ([REST API][get-view-image])                        |
 | [get-custom-view-data](tools/views/get-custom-view-data.md)                                                           | Retrieves data in CSV format for the specified custom view in a Tableau workbook ([REST API][get-custom-view-data]) |
@@ -78,6 +79,8 @@ Tableau's official MCP Server. Helping Agents see and understand data.
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#run_flow_now
 [run-flow-task]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#run_flow_task
+[cancel-flow-run]:
+  https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#cancel_flow_run
 [get-view-data]:
   https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_workbooks_and_views.htm#query_view_data
 [get-view-image]:

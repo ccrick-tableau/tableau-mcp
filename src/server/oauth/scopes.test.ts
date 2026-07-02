@@ -107,10 +107,12 @@ describe('scopes', () => {
 
       const mcp = getSupportedMcpScopes();
       expect(mcp).toContain('tableau:mcp:flow:run');
+      expect(mcp).toContain('tableau:mcp:flow:cancel');
 
       const api = getSupportedApiScopes();
       expect(api).toContain('tableau:flows:run');
       expect(api).toContain('tableau:flow_tasks:run');
+      expect(api).toContain('tableau:flow_runs:update');
     });
 
     it('excludes (does not advertise) the flow run scopes when flowWriteToolsEnabled is false', () => {
@@ -121,12 +123,14 @@ describe('scopes', () => {
 
       const mcp = getSupportedMcpScopes();
       expect(mcp).not.toContain('tableau:mcp:flow:run');
+      expect(mcp).not.toContain('tableau:mcp:flow:cancel');
       // The read flow scope is unaffected (list/get flow tools are not gated).
       expect(mcp).toContain('tableau:mcp:flow:read');
 
       const api = getSupportedApiScopes();
       expect(api).not.toContain('tableau:flows:run');
       expect(api).not.toContain('tableau:flow_tasks:run');
+      expect(api).not.toContain('tableau:flow_runs:update');
     });
 
     it('treats the flow run scope as invalid when flowWriteToolsEnabled is false', () => {
@@ -136,6 +140,7 @@ describe('scopes', () => {
       } as any);
 
       expect(isValidScope('tableau:mcp:flow:run')).toBe(false);
+      expect(isValidScope('tableau:mcp:flow:cancel')).toBe(false);
     });
   });
 

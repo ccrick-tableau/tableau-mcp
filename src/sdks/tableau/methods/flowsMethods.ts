@@ -189,4 +189,31 @@ export default class FlowsMethods extends AuthenticatedMethods<typeof flowsApis>
     );
     return raw.job;
   };
+
+  /**
+   * Cancels a flow run that is in progress, addressed by its flow *run* id.
+   * No request body; a successful call returns nothing (empty 200).
+   *
+   * Cancellation is best-effort at the Backgrounder job level: a run may take
+   * several seconds to stop and, if it is already writing to an output
+   * database, that write may complete even after the run reports Cancelled.
+   *
+   * Required scopes: `tableau:flow_runs:update`
+   *
+   * @param siteId - The Tableau site ID
+   * @param flowRunId - The ID of the flow run to cancel
+   * @link https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#cancel_flow_run
+   */
+  cancelFlowRun = async ({
+    siteId,
+    flowRunId,
+  }: {
+    siteId: string;
+    flowRunId: string;
+  }): Promise<void> => {
+    await this._apiClient.cancelFlowRun(undefined, {
+      params: { siteId, flowRunId },
+      ...this.authHeader,
+    });
+  };
 }

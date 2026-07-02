@@ -24,6 +24,11 @@ export type McpScope =
   // Run a flow on demand (run-flow, run-flow-task). Executing a flow consumes
   // Prep Conductor capacity but does not alter a schedule definition.
   | 'tableau:mcp:flow:run'
+  // Cancel an in-progress flow run (cancel-flow-run). Kept separate from
+  // `flow:run` because interrupting a run mid-write can leave an output
+  // database partially updated (no rollback) — it is the destructive member of
+  // the flow-run lifecycle, so a deployment can grant "run" without "cancel".
+  | 'tableau:mcp:flow:cancel'
   | 'tableau:mcp:pulse:read'
   | 'tableau:mcp:insight:create'
   | 'tableau:mcp:tasks:read'
@@ -37,6 +42,7 @@ export type TableauApiScope =
   | 'tableau:flows:run'
   | 'tableau:flow_connections:read'
   | 'tableau:flow_runs:read'
+  | 'tableau:flow_runs:update'
   | 'tableau:flow_tasks:run'
   | 'tableau:insight_definitions_metrics:read'
   | 'tableau:insight_metrics:read'
@@ -169,6 +175,14 @@ const toolScopeMap: Record<
     // bounded context (cannot prove the task's flow is in the allowed set).
     mcp: ['tableau:mcp:flow:run'],
     api: new Set(['tableau:flow_tasks:run', 'tableau:mcp_site_settings:read']),
+  },
+  'cancel-flow-run': {
+    // Dedicated cancel scope (not flow:run): cancel is the destructive member of
+    // the flow-run lifecycle, so it is granted separately. Run-id only — no flow
+    // fetch, so no flows:read. Fails closed under a bounded context (cannot
+    // prove the run's flow is in the allowed set).
+    mcp: ['tableau:mcp:flow:cancel'],
+    api: new Set(['tableau:flow_runs:update', 'tableau:mcp_site_settings:read']),
   },
   'query-datasource': {
     mcp: ['tableau:mcp:datasource:read'],
@@ -319,6 +333,7 @@ function getEnabledToolNames(): Set<WebToolName> {
   if (!config.flowWriteToolsEnabled) {
     enabledTools.delete('run-flow');
     enabledTools.delete('run-flow-task');
+    enabledTools.delete('cancel-flow-run');
   }
 
   return enabledTools;

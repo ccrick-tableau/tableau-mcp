@@ -104,3 +104,86 @@ export function mapFlowWriteError(error: unknown, verb: string): McpToolError {
     message: `Could not ${verb}: ${cause}`,
   });
 }
+
+/**
+ * Maps an error from Cancel Flow Run into a clear, non-retryable
+ * {@link McpToolError}. Cancel has its own distinct failure conditions that the
+ * generic {@link mapFlowWriteError} would describe in run-oriented terms, so it
+ * is keyed on Tableau's own error `code` (verified against the monolith
+ * `RestApiErrorResponseCode`):
+ *   - 403136 CANCEL_FLOW_RUNS_DISABLED     — cancel disabled for the site
+ *   - 403135 FLOW_RUN_ALREADY_COMPLETE     — nothing to cancel (not retryable)
+ *   - 403137 CANCEL_FLOW_RUN_FORBIDDEN     — caller is not the run initiator/admin
+ *   - 404036 FLOW_RUN_NOT_FOUND            — no such flow run
+ */
+export function mapCancelFlowRunError(error: unknown): McpToolError {
+  if (error instanceof McpToolError) {
+    return error;
+  }
+
+  const status = error instanceof Error ? getHttpStatus(error) : '';
+  const tableauError = extractTableauError(error);
+  const code = tableauError?.code;
+  const cause = tableauError ? formatTableauError(tableauError) : getExceptionMessage(error);
+
+  // 403135: the run already finished (Success/Failed/Cancelled) before the
+  // cancel arrived. Retrying will never succeed — say so explicitly.
+  if (code === '403135') {
+    return new McpToolError({
+      type: 'cancel-flow-run-already-complete',
+      statusCode: 403,
+      message: [
+        'Could not cancel this flow run: it has already completed, so there is nothing to cancel.',
+        'Check the final status with list-flow-runs or get-flow.',
+        cause,
+      ].join(' '),
+    });
+  }
+
+  // 403136: an administrator has disabled flow-run cancellation for the site.
+  if (code === '403136') {
+    return new McpToolError({
+      type: 'cancel-flow-run-disabled',
+      statusCode: 403,
+      message: [
+        'Could not cancel this flow run: flow-run cancellation is disabled for this site.',
+        'A site or server administrator controls this setting.',
+        cause,
+      ].join(' '),
+    });
+  }
+
+  // 403137 (and any other 403): the caller is not permitted to cancel this run.
+  // Cancelling requires Run Flow permission AND being the run's initiator, or
+  // being a site/server administrator.
+  if (code === '403137' || status === '403') {
+    return new McpToolError({
+      type: 'cancel-flow-run-forbidden',
+      statusCode: 403,
+      message: [
+        'Not permitted to cancel this flow run.',
+        'You can cancel a flow run only if you are a site/server administrator, or you initiated the run (or created its scheduled task) and have Run Flow permission on the flow.',
+        cause,
+      ].join(' '),
+    });
+  }
+
+  // 404 (404036): the flow run id does not exist or is not visible to the caller.
+  if (status === '404') {
+    return new McpToolError({
+      type: 'cancel-flow-run-not-found',
+      statusCode: 404,
+      message: [
+        'Could not cancel: the specified flow run was not found, or you do not have access to it.',
+        'Verify the flow run id with list-flow-runs.',
+        cause,
+      ].join(' '),
+    });
+  }
+
+  return new McpToolError({
+    type: 'cancel-flow-run-failed',
+    statusCode: Number(status) || 500,
+    message: `Could not cancel this flow run: ${cause}`,
+  });
+}

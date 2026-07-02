@@ -75,4 +75,25 @@ describe('FlowsMethods', () => {
       );
     });
   });
+
+  describe('cancelFlowRun', () => {
+    function makeMethods(apiClient: unknown): FlowsMethods {
+      const flowsMethods = new FlowsMethods('http://test', { type: 'Bearer', token: 'test' }, {});
+      // @ts-expect-error - Mocking private property
+      flowsMethods._apiClient = apiClient;
+      return flowsMethods;
+    }
+
+    it('PUTs the flow run id in the URI params with no request body', async () => {
+      const mockApiClient = { cancelFlowRun: vi.fn().mockResolvedValue(undefined) };
+      const flowsMethods = makeMethods(mockApiClient);
+
+      await flowsMethods.cancelFlowRun({ siteId: 'site-1', flowRunId: 'run-1' });
+
+      expect(mockApiClient.cancelFlowRun).toHaveBeenCalledWith(
+        undefined,
+        expect.objectContaining({ params: { siteId: 'site-1', flowRunId: 'run-1' } }),
+      );
+    });
+  });
 });

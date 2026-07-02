@@ -171,12 +171,47 @@ const getFlowRunsEndpoint = makeEndpoint({
   }),
 });
 
+/**
+ * Cancel Flow Run
+ * PUT /api/api-version/sites/site-id/flows/runs/flow-run-id
+ * Cancels a flow run that is in progress. Addressed by the flow *run* id (not
+ * the flow id). No request body; a successful call returns an empty 200.
+ *
+ * Cancellation is best-effort: the underlying Backgrounder job checks for
+ * cancellation periodically and interrupts the run, so a run may take several
+ * seconds to stop and, if it is already writing to an output database, that
+ * write may complete even after the run reports Cancelled.
+ *
+ * Tableau Cloud scope: tableau:flow_runs:update (added API 3.27)
+ * @see https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_flow.htm#cancel_flow_run
+ */
+const cancelFlowRunEndpoint = makeEndpoint({
+  method: 'put',
+  path: '/sites/:siteId/flows/runs/:flowRunId',
+  alias: 'cancelFlowRun',
+  description: 'Cancels a flow run that is in progress. No request body; returns an empty 200.',
+  parameters: [
+    {
+      name: 'siteId',
+      type: 'Path',
+      schema: z.string(),
+    },
+    {
+      name: 'flowRunId',
+      type: 'Path',
+      schema: z.string(),
+    },
+  ],
+  response: z.void(),
+});
+
 const flowsApi = makeApi([
   queryFlowsForSiteEndpoint,
   queryFlowEndpoint,
   queryFlowConnectionsEndpoint,
   getFlowRunsEndpoint,
   runFlowNowEndpoint,
+  cancelFlowRunEndpoint,
 ]);
 
 export const flowsApis = [...flowsApi] as const satisfies ZodiosEndpointDefinitions;

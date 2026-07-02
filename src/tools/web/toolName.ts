@@ -17,6 +17,7 @@ export const webToolNames = [
   'get-flow-task',
   'run-flow',
   'run-flow-task',
+  'cancel-flow-run',
   'get-view-data',
   'get-view-image',
   'get-custom-view-data',
@@ -74,6 +75,7 @@ export const webToolGroups = {
     'get-flow-task',
     'run-flow',
     'run-flow-task',
+    'cancel-flow-run',
   ],
   pulse: [
     'list-all-pulse-metric-definitions',

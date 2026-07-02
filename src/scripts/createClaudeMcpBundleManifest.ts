@@ -634,7 +634,7 @@ const envVars = {
     type: 'boolean',
     title: 'Enable content-mutating flow MCP tools',
     description:
-      'When "true", registers the content-MUTATING flow run tools (run-flow, run-flow-task). Defaults to "false".',
+      'When "true", registers the content-MUTATING flow run tools (run-flow, run-flow-task, cancel-flow-run). Defaults to "false".',
     required: false,
     sensitive: false,
   },

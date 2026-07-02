@@ -4,6 +4,7 @@ import { getQueryAdminInsightsSiteContentTool } from './adminInsights/querySiteC
 import { getQueryAdminInsightsTsEventsTool } from './adminInsights/queryTsEvents.js';
 import { getSearchContentTool } from './contentExploration/searchContent.js';
 import { getListExtractRefreshTasksTool } from './extractRefreshTasks/listExtractRefreshTasks.js';
+import { getCancelFlowRunTool } from './flows/cancelFlowRun/cancelFlowRun.js';
 import { getGetFlowTool } from './flows/getFlow/getFlow.js';
 import { getGetFlowTaskTool } from './flows/getFlowTask/getFlowTask.js';
 import { getListFlowRunsTool } from './flows/listFlowRuns/listFlowRuns.js';
@@ -48,6 +49,7 @@ export const webToolFactories = [
   getGetFlowTaskTool,
   getRunFlowTool,
   getRunFlowTaskTool,
+  getCancelFlowRunTool,
   getListAllPulseMetricDefinitionsTool,
   getListPulseMetricDefinitionsFromDefinitionIdsTool,
   getListPulseMetricsFromMetricDefinitionIdTool,

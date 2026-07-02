@@ -69,7 +69,8 @@ export class Config extends BaseConfig {
   isHyperforce: boolean;
   breakGlassDisableGlobally: boolean;
   adminToolsEnabled: boolean;
-  // Gates the content-MUTATING flow run tools (run-flow, run-flow-task).
+  // Gates the content-MUTATING flow run tools (run-flow, run-flow-task,
+  // cancel-flow-run).
   // Default off: these tools change site state for other users because a run
   // consumes Prep Conductor capacity and can overwrite outputs, so operators
   // must opt in.

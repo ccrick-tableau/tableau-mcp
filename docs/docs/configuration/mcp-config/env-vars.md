@@ -446,7 +446,8 @@ Enables the content-**mutating** Tableau Prep flow run tools. These tools change
 - When `true`, enables:
   - [`run-flow`](../../tools/flows/run-flow.md) — run a flow on demand (Run Flow Now)
   - [`run-flow-task`](../../tools/flows/run-flow-task.md) — run an existing scheduled task now (Run Flow Task)
-- When `false` (default), these tools are not registered and their run OAuth scopes (`tableau:mcp:flow:run` and the corresponding `tableau:flows:run` / `tableau:flow_tasks:run` API scopes) are not advertised.
+  - [`cancel-flow-run`](../../tools/flows/cancel-flow-run.md) — cancel an in-progress flow run (Cancel Flow Run)
+- When `false` (default), these tools are not registered and their OAuth scopes (`tableau:mcp:flow:run` for the run tools and `tableau:mcp:flow:cancel` for cancel, plus the corresponding `tableau:flows:run` / `tableau:flow_tasks:run` / `tableau:flow_runs:update` API scopes) are not advertised.
 - These tools require **Data Management with Tableau Prep Conductor**, and the site's **Run Now** setting must be enabled. They honor the caller's flow permissions and the server's `INCLUDE_PROJECT_IDS` / `INCLUDE_TAGS` bounded context.
 - Known REST API minimums are preflighted before mutation (`run-flow`: 3.14+). License, site-setting, deployment, and permission failures are surfaced from Tableau's REST error details.
 - The read-only flow tools (`list-flows`, `get-flow`, `list-flow-runs`, `list-flow-tasks`, `get-flow-task`) are **not** gated by this flag.
