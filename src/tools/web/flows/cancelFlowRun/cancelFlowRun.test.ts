@@ -1,5 +1,6 @@
 import { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 
+import { getConfig } from '../../../../config.js';
 import { WebMcpServer } from '../../../../server.web.js';
 import invariant from '../../../../utils/invariant.js';
 import { Provider } from '../../../../utils/provider.js';
@@ -51,6 +52,17 @@ describe('cancelFlowRunTool', () => {
   it('is enabled when the flow write flag is on', () => {
     const tool = getCancelFlowRunTool(new WebMcpServer());
     expect(tool.disabled).toBeFalsy();
+  });
+
+  it('is disabled when the flow write flag is off (state-mutating tool is opt-in)', () => {
+    vi.mocked(getConfig).mockReturnValueOnce({
+      flowWriteToolsEnabled: false,
+      productTelemetryEnabled: false,
+      productTelemetryEndpoint: 'https://test.com',
+      server: 'https://test.tableau.com',
+    } as unknown as ReturnType<typeof getConfig>);
+    const tool = getCancelFlowRunTool(new WebMcpServer());
+    expect(tool.disabled).toBe(true);
   });
 
   it('requests cancellation and returns a best-effort cancelStatus note', async () => {
