@@ -6,7 +6,7 @@ import { buildVariant } from './build.js';
 import { McpClient } from './mcpClient.js';
 
 const serverVersion = pkg.version;
-const flowWriteTools: ReadonlyArray<WebToolName> = ['run-flow', 'run-flow-task'];
+const flowWriteTools: ReadonlyArray<WebToolName> = ['run-flow', 'run-flow-task', 'cancel-flow-run'];
 
 describe('server', () => {
   beforeAll(setEnv);
