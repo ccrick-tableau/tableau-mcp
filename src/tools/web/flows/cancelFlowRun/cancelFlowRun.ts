@@ -50,7 +50,7 @@ export const getCancelFlowRunTool = (server: WebMcpServer): WebTool<typeof param
   - **Caller-role:** in addition to site/server administrators, you can cancel a flow run only if you **initiated the run** (or created its scheduled task) **and** have Run Flow permission on the flow. Non-permitted callers get a clear permission error.
   - Fails if the run has **already completed** (nothing to cancel), or if a site administrator has **disabled flow-run cancellation** for the site.
   - **Bounded-context note:** when this MCP server is restricted to specific projects/tags, this tool cannot verify that the flow run's flow is in the allowed set (a run is addressed only by run id), so it refuses \u2014 mirroring \`run-flow-task\`.
-  - Requires Tableau REST API access scope \`tableau:flow_runs:update\`.`,
+  - Requires Tableau REST API access scopes \`tableau:flow_runs:update\` and \`tableau:mcp_site_settings:read\`.`,
     paramsSchema,
     annotations: {
       title: 'Cancel Flow Run',

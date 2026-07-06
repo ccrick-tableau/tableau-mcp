@@ -30,6 +30,7 @@ Only registered when `FLOW_WRITE_TOOLS_ENABLED=true` (default off).
 ## Required Tableau API scopes
 
 - `tableau:flow_runs:update`
+- `tableau:mcp_site_settings:read`
 
 The `tableau:flow_runs:update` scope was added in Tableau Cloud December 2025 / Server 2025.3.
 
