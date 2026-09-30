@@ -271,20 +271,13 @@ describe('Config', () => {
     expect(config.breakGlassDisableGlobally).toBe(true);
   });
 
-  it('should set flowToolsEnabled to false by default', () => {
-    const config = new Config();
-    expect(config.flowToolsEnabled).toBe(false);
-  });
-
-  it('should set flowToolsEnabled to true when FLOW_TOOLS_ENABLED is "true"', () => {
-    vi.stubEnv('FLOW_TOOLS_ENABLED', 'true');
-
+  it('should set flowToolsEnabled to true by default', () => {
     const config = new Config();
     expect(config.flowToolsEnabled).toBe(true);
   });
 
-  it('should keep flowToolsEnabled false for values other than "true"', () => {
-    vi.stubEnv('FLOW_TOOLS_ENABLED', 'yes');
+  it('should set flowToolsEnabled to false when FLOW_TOOLS_ENABLED is "false"', () => {
+    vi.stubEnv('FLOW_TOOLS_ENABLED', 'false');
 
     const config = new Config();
     expect(config.flowToolsEnabled).toBe(false);
@@ -302,16 +295,16 @@ describe('Config', () => {
     expect(config.insightsToolsEnabled).toBe(true);
   });
 
-  it('should set flowWriteToolsEnabled to false by default', () => {
-    const config = new Config();
-    expect(config.flowWriteToolsEnabled).toBe(false);
-  });
-
-  it('should set flowWriteToolsEnabled to true when specified', () => {
-    vi.stubEnv('FLOW_WRITE_TOOLS_ENABLED', 'true');
-
+  it('should set flowWriteToolsEnabled to true by default', () => {
     const config = new Config();
     expect(config.flowWriteToolsEnabled).toBe(true);
+  });
+
+  it('should set flowWriteToolsEnabled to false when FLOW_WRITE_TOOLS_ENABLED is "false"', () => {
+    vi.stubEnv('FLOW_WRITE_TOOLS_ENABLED', 'false');
+
+    const config = new Config();
+    expect(config.flowWriteToolsEnabled).toBe(false);
   });
 
   describe('HTTP server config parsing', () => {

@@ -3,7 +3,7 @@
   "enforce-role-requirements": false,
   "enforce-registration-conditions": false,
   "authoring-tools": true,
-  "flow-tools": false,
+  "flow-tools": true,
   "knowledge-tools": false,
   "view-file-mode": false,
   "view-data-file-mode": false,

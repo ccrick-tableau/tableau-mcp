@@ -9,6 +9,8 @@
         "SITE_NAME": "",
         "PAT_NAME": "",
         "PAT_VALUE": "",
+        "FLOW_TOOLS_ENABLED": "true",
+        "FLOW_WRITE_TOOLS_ENABLED": "true",
         "DATASOURCE_CREDENTIALS": "",
         "DEFAULT_NOTIFICATION_LEVEL": "debug",
         "INCLUDE_TOOLS": "",

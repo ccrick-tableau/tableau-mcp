@@ -412,8 +412,9 @@ describe('server', () => {
     expect(registeredToolNames).not.toContain('cancel-flow-run');
   });
 
-  it('should register read-only flow tools but not mutating flow tools when FLOW_WRITE_TOOLS_ENABLED is unset', async () => {
+  it('should register read-only flow tools but not mutating flow tools when FLOW_WRITE_TOOLS_ENABLED is false', async () => {
     vi.stubEnv('FLOW_TOOLS_ENABLED', 'true');
+    vi.stubEnv('FLOW_WRITE_TOOLS_ENABLED', 'false');
     mocks.mockFeatureGate.isFeatureEnabled.mockImplementation(
       (featureName: string) => featureName === 'flow-tools',
     );
