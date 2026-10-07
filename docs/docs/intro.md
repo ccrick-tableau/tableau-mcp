@@ -33,6 +33,8 @@ Slack channel in the Tableau #DataDev workspace.
 
 ## Tool List
 
+Flow tools are grouped by operation: GET, LIST, then RUN.
+
 | **Tool**                                                                                                              | **Description**                                                                                                     | **SKU**      |
 | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------ |
 | [list-datasources](tools/data-qna/list-datasources.md)                                                                | Retrieves a list of published data sources from a specified Tableau site ([REST API][query])                        | All SKUs     |
@@ -40,10 +42,10 @@ Slack channel in the Tableau #DataDev workspace.
 | [list-projects](tools/projects/list-projects.md)                                                                      | Retrieves a list of projects from a specified Tableau site ([REST API][list-projects])                              | All SKUs     |
 | [list-views](tools/views/list-views.md)                                                                               | Retrieves a list of views from a specified Tableau site ([REST API][list-views])                                    | All SKUs     |
 | [list-custom-views](tools/views/list-custom-views.md)                                                                 | Retrieves a list of custom views for a specified Tableau workbook ([REST API][list-custom-views])                   | All SKUs     |
-| [list-flows](tools/flows/list-flows.md)                                                                               | Retrieves a list of Tableau Prep flows from a specified Tableau site ([REST API][list-flows])                       | All SKUs     |
 | [get-datasource-metadata](tools/data-qna/get-datasource-metadata.md)                                                  | Fetches datasource metadata including table relationships, datasource and field descriptions, field roles and types, calculation strings, and parameters for the specified datasource ([Metadata API][meta] & [VDS API][vds])                         | All SKUs\*   |
 | [get-workbook](tools/workbooks/get-workbook.md)                                                                       | Retrieves information about a workbook for a specified workbook on a Tableau site ([REST API][get-workbook])                        | All SKUs     |
 | [get-flow](tools/flows/get-flow.md)                                                                                   | Retrieves information on a Tableau Prep flow including output steps and recent runs ([REST API][get-flow])                          | All SKUs     |
+| [list-flows](tools/flows/list-flows.md)                                                                               | Retrieves a list of Tableau Prep flows from a specified Tableau site ([REST API][list-flows])                       | All SKUs     |
 | [list-flow-runs](tools/flows/list-flow-runs.md)                                                                       | Retrieves the run history (executions) of Tableau Prep flows on a site ([REST API][list-flow-runs])                                 | All SKUs     |
 | [list-flow-tasks](tools/flows/list-flow-tasks.md)                                                                     | Retrieves the scheduled flow run tasks (schedules) for Tableau Prep flows on a site ([REST API][list-flow-tasks])                   | All SKUs     |
 | [delete-content](tools/content/delete-content.md)                                                                     | Admin-only. Two-phase (preview/confirm) delete of a workbook, data source, or extract refresh task ([REST API][delete-workbook], [REST API][delete-datasource], [REST API][delete-extract-refresh-task]) | All SKUs     |
