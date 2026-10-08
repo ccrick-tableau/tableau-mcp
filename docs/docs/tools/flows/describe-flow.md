@@ -26,7 +26,7 @@ or "walk me through this flow".
   — used to enrich the summary with the flow's identity (name, owner, project, tags, parameters).
   Best-effort: if it fails, the structural summary is still returned with a note.
 
-:::warning Experimental API
+:::warning[Experimental API]
 
 The flow-document endpoint lives under `/api/exp` and must be enabled server-side. If it is not
 enabled, this tool returns a clear "experimental flow-document API is not enabled" error — fall
